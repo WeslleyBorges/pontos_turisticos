@@ -6,12 +6,22 @@ from rest_framework.response import Response
 class PontoTuristicoViewSet(ModelViewSet):
     #queryset = PontoTuristico.objects.all()
     serializer_class = PontoTuristicoSerializer
+    lookup_field = 'nome'
 
     def get_queryset(self):
-        return PontoTuristico.objects.filter(aprovado=True)
+
+        nome = self.request.query_params.get('nome', None)
+
+        cutesat = PontoTuristico.objects.all()
+
+        if nome:
+            cutesat = cutesat.filter(nome__contains=nome)
+
+        return cutesat
 
     def list(self, request, *args, **kwargs):
-        return Response({'modelo': 'Corsa', 'ano': 2006, 'flex': True})
+        #return Response({'modelo': 'Corsa', 'ano': 2006, 'flex': True})
+        return super(PontoTuristicoViewSet, self).list(request, *args, **kwargs)
 
     def create(self, request, *args, **kwargs):
         return super(PontoTuristicoViewSet, self).create(request, *args, **kwargs)
