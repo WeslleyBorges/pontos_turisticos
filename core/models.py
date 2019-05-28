@@ -15,6 +15,10 @@ class PontoTuristico(models.Model):
     endereco = models.ForeignKey(Endereco, on_delete=models.CASCADE, null=True, blank=True)
     foto = models.ImageField(upload_to='pontos-turisticos', null=True, blank=True)
 
+    @property
+    def descricao_completa_com_label(self):
+        return 'o nome e descrição deste ponto turístico é: %s - %s' % (self.nome, self.nome)
+
     def Meta(self):
         verbose_name = 'Pontos Turisticos'
 
